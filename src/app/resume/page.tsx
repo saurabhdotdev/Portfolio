@@ -15,6 +15,14 @@ export default function ResumePage() {
       <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-sm dark:border-white/10 dark:bg-white/5">
         <div className="text-center">
           <h1 className="text-4xl font-semibold tracking-tight">{PROFILE.name}</h1>
+          <div className="mt-5">
+            <Link
+              href="/resume.pdf"
+              className="inline-flex rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white hover:bg-black/85 dark:bg-white dark:text-black dark:hover:bg-white/85"
+            >
+              Download resume
+            </Link>
+          </div>
           <div className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm text-zinc-600 dark:text-zinc-300">
             <span>{PROFILE.phone}</span>
             <span className="text-zinc-300 dark:text-zinc-600">/</span>
@@ -118,4 +126,3 @@ export default function ResumePage() {
     </main>
   );
 }
-
