@@ -35,30 +35,85 @@ function buildMailtoHref(payload: ContactPayload) {
   return `mailto:${CONTACT_TO_EMAIL}?subject=${subject}&body=${body}`;
 }
 
+function buildTextEmail(payload: ContactPayload) {
+  return [
+    "New portfolio contact message",
+    "",
+    `Name: ${payload.name}`,
+    `Email: ${payload.email}`,
+    `Subject: ${payload.subject || "Portfolio inquiry"}`,
+    "",
+    payload.message,
+  ].join("\n");
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function buildHtmlEmail(payload: ContactPayload) {
+  const name = escapeHtml(payload.name);
+  const email = escapeHtml(payload.email);
+  const subject = escapeHtml(payload.subject || "Portfolio inquiry");
+  const message = escapeHtml(payload.message).replace(/\n/g, "<br />");
+
+  return `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111827;">
+      <h2 style="margin: 0 0 16px;">New portfolio contact message</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Subject:</strong> ${subject}</p>
+      <div style="margin-top: 20px; padding: 16px; border-left: 4px solid #111827; background: #f9fafb;">
+        ${message}
+      </div>
+    </div>
+  `;
+}
+
 async function sendWithResend(payload: ContactPayload) {
   if (!process.env.RESEND_API_KEY) {
     return { configured: false, ok: false };
   }
 
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: CONTACT_FROM_EMAIL,
-      to: CONTACT_TO_EMAIL,
-      reply_to: payload.email,
-      subject: payload.subject || `Portfolio inquiry from ${payload.name}`,
-      text: `Name: ${payload.name}\nEmail: ${payload.email}\n\n${payload.message}`,
-    }),
-  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
 
-  return {
-    configured: true,
-    ok: response.ok,
-  };
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      signal: controller.signal,
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+        "Idempotency-Key": crypto.randomUUID(),
+      },
+      body: JSON.stringify({
+        from: CONTACT_FROM_EMAIL,
+        to: CONTACT_TO_EMAIL,
+        reply_to: payload.email,
+        subject: payload.subject || `Portfolio inquiry from ${payload.name}`,
+        text: buildTextEmail(payload),
+        html: buildHtmlEmail(payload),
+      }),
+    });
+
+    return {
+      configured: true,
+      ok: response.ok,
+    };
+  } catch {
+    return {
+      configured: true,
+      ok: false,
+    };
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 export async function POST(request: Request) {

@@ -1,37 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Saurabh Kulkarni Portfolio
 
-## Getting Started
+Personal portfolio built with Next.js, Tailwind CSS, Vercel, and small backend API routes.
 
-First, run the development server:
+## Features
+
+- Portfolio pages for projects, resume, publications, and contact
+- Live GitHub activity from `saurabhdotdev` through `/api/github`
+- Backend contact endpoint at `/api/contact`
+- Optional automatic email delivery through Resend
+- Vercel production deployment
+
+## Local Development
+
+Install dependencies and run the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Copy `.env.example` to `.env.local` for local secrets:
 
-## Learn More
+```bash
+copy .env.example .env.local
+```
 
-To learn more about Next.js, take a look at the following resources:
+Required for automatic contact form email delivery:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+RESEND_API_KEY=re_xxxxxxxxx
+CONTACT_TO_EMAIL=saurabh.work555@gmail.com
+CONTACT_FROM_EMAIL=Portfolio <onboarding@resend.dev>
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Notes:
 
-## Deploy on Vercel
+- `RESEND_API_KEY` comes from Resend.
+- `CONTACT_FROM_EMAIL` must be a sender/domain allowed by Resend.
+- Without `RESEND_API_KEY`, the form safely falls back to preparing an email in the visitor's email app.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Vercel Setup
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-Personal website details and methodology
+Add the same variables in Vercel Project Settings > Environment Variables, or through the Vercel CLI:
+
+```bash
+npx vercel env add RESEND_API_KEY production
+npx vercel env add CONTACT_TO_EMAIL production
+npx vercel env add CONTACT_FROM_EMAIL production
+```
+
+Redeploy after adding production environment variables:
+
+```bash
+npx vercel --prod
+```
