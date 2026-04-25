@@ -6,9 +6,29 @@ Personal portfolio built with Next.js, Tailwind CSS, Vercel, and small backend A
 
 - Portfolio pages for projects, resume, publications, and contact
 - Live GitHub activity from `saurabhdotdev` through `/api/github`
+- Searchable project data through `/api/projects`
+- Project recommendation scoring through `/api/projects/recommend`
 - Backend contact endpoint at `/api/contact`
 - Optional automatic email delivery through Resend
 - Vercel production deployment
+
+## Backend API Routes
+
+```text
+GET  /api/github
+GET  /api/projects?q=ml&tag=Machine%20Learning
+POST /api/projects/recommend
+POST /api/contact
+```
+
+The project recommendation route accepts JSON:
+
+```json
+{
+  "interests": ["backend", "ml", "embedded"],
+  "goal": "api machine learning systems"
+}
+```
 
 ## Local Development
 

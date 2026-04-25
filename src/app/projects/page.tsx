@@ -1,4 +1,5 @@
 import { PROJECTS } from "@/lib/projects";
+import { ProjectMatcher } from "@/components/ProjectMatcher";
 
 export default function ProjectsPage() {
   return (
@@ -8,6 +9,8 @@ export default function ProjectsPage() {
         Selected work across full-stack development, machine learning, and
         embedded/FPGA.
       </p>
+
+      <ProjectMatcher />
 
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         {PROJECTS.map((p) => (
@@ -35,4 +38,3 @@ export default function ProjectsPage() {
     </main>
   );
 }
-
