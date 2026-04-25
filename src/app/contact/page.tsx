@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ContactForm } from "@/components/ContactForm";
 import { PROFILE } from "@/lib/projects";
 
 export default function ContactPage() {
@@ -11,29 +12,35 @@ export default function ContactPage() {
         Want to work together? Reach out by email or phone.
       </p>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-white/5">
-          <div className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
-            Email
-          </div>
-          <Link
-            href={`mailto:${PROFILE.email}`}
-            className="mt-2 block text-lg font-semibold hover:underline"
-          >
-            {PROFILE.email}
-          </Link>
-        </div>
+      <div className="mt-8 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+        <ContactForm />
 
-        <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-white/5">
-          <div className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
-            Phone
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+          <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-white/5">
+            <div className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
+              Email
+            </div>
+            <Link
+              href={`mailto:${PROFILE.email}`}
+              className="mt-2 block text-lg font-semibold hover:underline"
+            >
+              {PROFILE.email}
+            </Link>
           </div>
-          <Link href={telHref} className="mt-2 block text-lg font-semibold hover:underline">
-            {PROFILE.phone}
-          </Link>
+
+          <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-white/5">
+            <div className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
+              Phone
+            </div>
+            <Link
+              href={telHref}
+              className="mt-2 block text-lg font-semibold hover:underline"
+            >
+              {PROFILE.phone}
+            </Link>
+          </div>
         </div>
       </div>
     </main>
   );
 }
-

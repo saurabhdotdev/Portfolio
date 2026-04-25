@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PROFILE, PROJECTS, QUICK_WINS, SKILLS, STATS } from "@/lib/projects";
 import { HomeScrollFX } from "@/components/HomeScrollFX";
+import { GitHubActivity } from "@/components/GitHubActivity";
 
 export default function Home() {
   return (
@@ -99,6 +100,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <GitHubActivity />
 
       <section
         className="snap-start scroll-mt-24 mt-16"

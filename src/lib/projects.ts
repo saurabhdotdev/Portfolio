@@ -28,7 +28,7 @@ export const PROFILE = {
   phone: "+91 9765820449",
   availability: "Open to full-time roles • Internships • Freelance",
   socials: [
-    { label: "GitHub", href: "https://github.com/" },
+    { label: "GitHub", href: "https://github.com/saurabhdotdev" },
     { label: "LinkedIn", href: "https://www.linkedin.com/" },
   ],
 } as const;
@@ -259,4 +259,3 @@ export const PUBLICATIONS: Publication[] = [
     ],
   },
 ];
-
